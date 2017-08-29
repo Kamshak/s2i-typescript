@@ -13,7 +13,7 @@ LABEL io.k8s.description="Platform for building typescript" \
       io.k8s.display-name="builder typescript" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder" \
-      io.openshift.s2i.destination="/" \
+      io.openshift.s2i.destination="/tmp" \
       io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
 # TODO: Install required packages here:
@@ -29,13 +29,13 @@ COPY ./s2i/bin/ /usr/libexec/s2i
 
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
 RUN addgroup -g 1001 thenode && adduser -u 1001 -G thenode -s /bin/sh -D thenode
-RUN mkdir -p /usr/app
-RUN chown -R 1001:1001 /usr/app
+RUN chown -R 1001:1001 /home/thenode
+RUN chown -R 1001:1001 /tmp
 
 # TODO: Set the default port for applications built using this image
 EXPOSE 8080
 
-WORKDIR /usr/app
+WORKDIR /home/thenode
 
 USER 1001
 

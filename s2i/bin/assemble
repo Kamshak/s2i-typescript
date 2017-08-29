@@ -13,11 +13,14 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Restore artifacts from the previous build (if they exist).
-# Done automatically, we tar up the entire path
+if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+  echo "---> Restoring build artifacts..."
+  mkdir -p $(yarn cache dir)
+  cp -R /tmp/artifacts/. $(yarn cache dir)
+fi
 
 echo "---> Installing application source..."
-cp -Rf /src/. ./
-ls -lisa
+cp -Rf /tmp/src/. ./
 
 echo "---> Building application from source..."
 yarn
