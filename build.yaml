@@ -1,0 +1,45 @@
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+        app: firebase-steam
+    name: s2i-typescript-image
+    namespace: firebase-login
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: 'typescript-builder:latest'
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: master
+        uri: 'git@github.com:Kamshak/s2i-typescript.git'
+      sourceSecret:
+        name: github-pullkey
+      type: Git
+    strategy:
+      type: Docker
+      dockerStrategy:
+        dockerfilePath: ./Dockerfile
+    triggers:
+      - github:
+          secret: secrethere
+        type: GitHub
+      - type: ConfigChange
+---
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: firebase-steam
+    name: typescript-builder
+    namespace: firebase-login
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: 172.30.148.65:5000/firebase-login/typescript-builder
