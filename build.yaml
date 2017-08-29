@@ -26,3 +26,4 @@ spec:
         kind: DockerImage
         name: 'docker.io/library/node:8-alpine'
       importPolicy: {  }
+---
