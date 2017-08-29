@@ -28,16 +28,16 @@ RUN apk add --update bash && rm -rf /var/cache/apk/*
 COPY ./s2i/bin/ /usr/libexec/s2i
 
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
-# RUN chown -R 1001:1001 /opt/app-root
-
+RUN addgroup -g 1001 thenode && adduser -u 1001 -G thenode -s /bin/sh -D thenode
+RUN mkdir -p /usr/app
+RUN chown -R 1001:1001 /usr/app
 
 # TODO: Set the default port for applications built using this image
 EXPOSE 8080
 
-RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
-USER node
+USER 1001
 
 # TODO: Set the default CMD for the image
 CMD ["/usr/libexec/s2i/usage"]
