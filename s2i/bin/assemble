@@ -16,7 +16,7 @@ fi
 # Done automatically, we tar up the entire path
 
 echo "---> Installing application source..."
-cp -Rf /tmp/src/. ./
+cp -Rf /src/. ./
 ls -lisa
 
 echo "---> Building application from source..."
