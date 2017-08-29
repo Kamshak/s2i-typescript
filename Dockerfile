@@ -37,5 +37,7 @@ EXPOSE 8080
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
+USER node
+
 # TODO: Set the default CMD for the image
 CMD ["/usr/libexec/s2i/usage"]
